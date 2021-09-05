@@ -41,13 +41,13 @@ class Main {
 		System.out.println("Hourly rate of pay:\t" +
 				String.format("%.2f", hourly_rate));
 		System.out.println("Hours worked:\t\t" +
-				String.format("%.0f", hours_worked) + '\n');
+				String.format("%.0f", hours_worked) + "\n");
 
 		System.out.println("Total Gross Pay:\t$" +
-				String.format("%.2f", gross_pay) + '\n');
+				String.format("%.2f", gross_pay) + "\n");
 
 		System.out.println("Deductions\nTax (6%):\t\t$" +
-				String.format("%.2f", deductions_tax) + '\n');
+				String.format("%.2f", deductions_tax) + "\n");
 
 		System.out.println("Net Pay:\t\t" + String.format("%.2f", net_pay) +
 				" Dollars\n");
