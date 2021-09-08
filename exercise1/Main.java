@@ -22,6 +22,8 @@ class Main {
 
 		double hours_worked = sc.nextDouble();
 
+		sc.close();
+
 		System.out.println("\nThank you!\n");
 
 
