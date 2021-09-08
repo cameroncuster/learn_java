@@ -27,6 +27,7 @@ class Main {
 
 				// quit
 				case 'q':
+					sc.close(); // close the scanner
 					System.out.println("\tBye!");
 					System.exit(0);
 					break;
