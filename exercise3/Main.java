@@ -40,6 +40,7 @@ class Main {
 		for (int i = 0; i < arrayOfNames.length; i++)
 			arrayOfNames[i] = arrayOfNames[i].trim();
 
+		// sort
 		Arrays.sort(arrayOfNames);
 
 		System.out.println("Thank you!\nYou entered:");
@@ -77,6 +78,7 @@ class Main {
 				System.out.print("\nEnter the new name: ");
 				arrayOfNames[foundNameIndex] = sc.nextLine().toUpperCase().trim();
 
+				// maintain sorting
 				Arrays.sort(arrayOfNames);
 
 				System.out.println("\nGot it! Here is the new list:");
@@ -110,6 +112,7 @@ class Main {
 
 					arrayOfNames = newArrayOfNames;
 
+					// maintain sorting
 					Arrays.sort(arrayOfNames);
 
 					System.out.println("The name " + nameToChange + " has been added");
