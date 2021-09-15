@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 class Main {
 
@@ -39,6 +40,8 @@ class Main {
 		for (int i = 0; i < arrayOfNames.length; i++)
 			arrayOfNames[i] = arrayOfNames[i].trim();
 
+		Arrays.sort(arrayOfNames);
+
 		System.out.println("Thank you!\nYou entered:");
 
 		for (int i = 0; i < arrayOfNames.length - 1; i++)
@@ -50,7 +53,7 @@ class Main {
 
 			System.out.print("Do you want to make a change to any of the entered names (enter y/Y for yes, n/N for no, e/E to Exit program): ");
 
-			char choice = sc.next().toUpperCase().charAt(0);
+			char choice = sc.next().toLowerCase().charAt(0);
 
 			System.out.println();
 
@@ -66,13 +69,15 @@ class Main {
 
 			int foundNameIndex = -1;
 			for (int index = 0; index < arrayOfNames.length; index++)
-				if (nameToChange == arrayOfNames[index])
+				if (nameToChange.equals(arrayOfNames[index]))
 					foundNameIndex = index;
 
 			if (foundNameIndex > -1) {
 
 				System.out.print("\nEnter the new name: ");
 				arrayOfNames[foundNameIndex] = sc.nextLine().toUpperCase().trim();
+
+				Arrays.sort(arrayOfNames);
 
 				System.out.println("\nGot it! Here is the new list:");
 
@@ -86,7 +91,7 @@ class Main {
 
 				System.out.println("Sorry no such name in your list. Would you like to add \"" + nameToChange + "\" to the list? enter y/Y for yes, n/N for no, e/E to Exit program): ");
 
-				choice = sc.next().toUpperCase().charAt(0);
+				choice = sc.next().toLowerCase().charAt(0);
 
 				if (choice == 'e' || choice == 'n') {
 					System.out.println("Goodbye!");
@@ -104,6 +109,8 @@ class Main {
 					newArrayOfNames[newArrayOfNames.length - 1] = nameToChange;
 
 					arrayOfNames = newArrayOfNames;
+
+					Arrays.sort(arrayOfNames);
 
 					System.out.println("The name " + nameToChange + " has been added");
 
