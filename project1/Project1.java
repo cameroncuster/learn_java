@@ -90,6 +90,12 @@ class Project1 {
 					break;
 
 				case 2:
+					for (int student = 1; student <= 2; student++) {
+						System.out.println("Enter student " + student + " info:");
+						university.addStudent(Student.readStudent());
+						System.out.println("Thanks!");
+						System.out.println();
+					}
 					break;
 
 				case 3:
@@ -199,6 +205,26 @@ class Student extends Personal {
 
 	public int getCreditHours() {
 		return creditHours;
+	}
+
+	public static Student readStudent() {
+		System.out.print("\tName of Student: ");
+		String name = (new Scanner(System.in)).nextLine().trim();
+		System.out.println();
+
+		System.out.print("\tID: ");
+		String id = (new Scanner(System.in)).nextLine().trim();
+		System.out.println();
+
+		System.out.print("\tGpa: ");
+		double Gpa = (new Scanner(System.in)).nextDouble();
+		System.out.println();
+
+		System.out.print("\tCredit hours: ");
+		int creditHours = (new Scanner(System.in)).nextInt();
+		System.out.println();
+
+		return new Student(name, id, Gpa, creditHours);
 	}
 
 }
