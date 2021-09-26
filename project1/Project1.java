@@ -83,7 +83,7 @@ class Project1 {
 					} while (!Faculty.isValidDepartment(department));
 					System.out.println();
 
-					university.addFaculty(new Faculty(name, id, department, rank));
+					university.faculty.add(new Faculty(name, id, department, rank));
 
 					System.out.println("Faculty successfully added!");
 
@@ -92,13 +92,21 @@ class Project1 {
 				case 2:
 					for (int student = 1; student <= 2; student++) {
 						System.out.println("Enter student " + student + " info:");
-						university.addStudent(Student.readStudent());
+						university.students.add(Student.readStudent());
 						System.out.println("Thanks!");
 						System.out.println();
 					}
 					break;
 
 				case 3:
+					if (university.students.size() == 0)
+						System.out.println("No students registered.");
+					else {
+						assert university.students.size() == 2;
+						System.out.print("Which student? 1 " + university.students.get(0).getName() + " or 2 " + university.students.get(1).getName() + "? ");
+						int studentToPrint = (new Scanner(System.in)).nextInt();
+						System.out.println(university.students.get(studentToPrint - 1).getTuitionInvoice());
+					}
 					break;
 
 				case 4:
@@ -128,26 +136,14 @@ class Project1 {
 
 class University {
 
-	private ArrayList<Student> students;
-	private ArrayList<Faculty> faculty;
-	private ArrayList<Staff> staff;
+	ArrayList<Student> students;
+	ArrayList<Faculty> faculty;
+	ArrayList<Staff> staff;
 
 	public University() {
 		students = new ArrayList<Student>();
 		faculty = new ArrayList<Faculty>();
 		staff = new ArrayList<Staff>();
-	}
-
-	public void addStudent(Student student) {
-		this.students.add(student);
-	}
-
-	public void addFaculty(Faculty faculty) {
-		this.faculty.add(faculty);
-	}
-
-	public void addStaff(Staff staff) {
-		this.staff.add(staff);
 	}
 
 }
@@ -205,6 +201,25 @@ class Student extends Personal {
 
 	public int getCreditHours() {
 		return creditHours;
+	}
+
+	public String getTuitionInvoice() {
+		double totalPayment = 52.00 + 236.45 * creditHours;
+		double discount = 0.0;
+		if (gpa >= 3.85)
+			discount = 15 * (totalPayment / 100.0);
+		totalPayment -= discount;
+
+		String tuitionInvoice = "";
+		tuitionInvoice += "---------------------------------------------------------------------------\n";
+		tuitionInvoice += getName() + "\t\t\t\t" + getId() + "\n";
+		tuitionInvoice += "Credit Hours: " + creditHours + " ($236.45/credit hour)\n";
+		tuitionInvoice += "Fees: $52\n";
+		tuitionInvoice += "\n";
+		tuitionInvoice += "Total payment (after discount): $" + String.format("%.2f", totalPayment) + "\t\t($" + String.format("%.2f", discount) + " discount applied)\n";
+		tuitionInvoice += "---------------------------------------------------------------------------\n";
+
+		return tuitionInvoice;
 	}
 
 	public static Student readStudent() {
