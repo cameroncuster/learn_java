@@ -60,6 +60,7 @@ class Project1 {
 
 						System.out.print("\tRank: ");
 						rank = (new Scanner(System.in)).nextLine().toLowerCase().trim();
+						rank = rank.substring(0, 1).toUpperCase() + rank.substring(1);
 
 						if (!Faculty.isValidRank(rank))
 							System.out.println("\t\t\"" + rank + "\" is invalid");
@@ -74,6 +75,7 @@ class Project1 {
 
 						System.out.print("\tDepartment: ");
 						department = (new Scanner(System.in)).nextLine().toLowerCase().trim();
+						department = department.substring(0, 1).toUpperCase() + department.substring(1);
 
 						if (!Faculty.isValidDepartment(department))
 							System.out.println("\t\t\"" + department + "\" is invalid");
@@ -90,6 +92,13 @@ class Project1 {
 					break;
 
 				case 2:
+					if (university.students.size() == 2) {
+						System.out.println("You already have two students filled in. Do you want to update their information?");
+						System.out.print("Yes or No: ");
+						String choice = (new Scanner(System.in)).nextLine().toLowerCase().trim();
+						if (choice.equals("no"))
+							break;
+					}
 					for (int student = 1; student <= 2; student++) {
 						System.out.println("Enter student " + student + " info:");
 						university.students.add(Student.readStudent());
@@ -110,6 +119,9 @@ class Project1 {
 					break;
 
 				case 4:
+					System.out.println();
+					for (Faculty faculty : university.faculty)
+						System.out.println(faculty);
 					break;
 
 				case 5:
@@ -264,9 +276,9 @@ class Faculty extends Personal {
 	}
 
 	public static boolean isValidDepartment(String department) {
-		return department.equals("mathematics") ||
-			department.equals("engineering") ||
-			department.equals("english");
+		return department.equals("Mathematics") ||
+			department.equals("Engineering") ||
+			department.equals("English");
 	}
 
 	public void setRank(String rank) {
@@ -277,8 +289,17 @@ class Faculty extends Personal {
 		return rank;
 	}
 
+	public String toString() {
+		String facultyRepresentation = "";
+		facultyRepresentation += "---------------------------------------------------------------------------\n";
+		facultyRepresentation += getName() + "\t\t" + getId() + "\n";
+		facultyRepresentation += department + " Department, " + rank + "\n";
+		facultyRepresentation += "---------------------------------------------------------------------------\n";
+		return facultyRepresentation;
+	}
+
 	public static boolean isValidRank(String rank) {
-		return rank.equals("professor") || rank.equals("adjunct");
+		return rank.equals("Professor") || rank.equals("Adjunct");
 	}
 
 }
