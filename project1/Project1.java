@@ -70,28 +70,115 @@ class Project1 {
 
 class Personal {
 
-	String name;
-	String id;
+	private String name;
+	private String id;
+
+	public Personal(String name, String id) {
+		setName(name);
+		setId(id);
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getId() {
+		return id;
+	}
 
 }
 
 class Student extends Personal {
 
-	double gpa;
-	int creditHours;
+	private double gpa;
+	private int creditHours;
+
+	public Student(String name, String id, double gpa, int creditHours) {
+		super(name, id);
+		setGpa(gpa);
+		setCreditHours(creditHours);
+	}
+
+	public void setGpa(double gpa) {
+		this.gpa = gpa;
+	}
+
+	public double getGpa() {
+		return gpa;
+	}
+
+	public void setCreditHours(int creditHours) {
+		this.creditHours = creditHours;
+	}
+
+	public int getCreditHours() {
+		return creditHours;
+	}
 
 }
 
 class Faculty extends Personal {
 
-	String department;
-	char status;
+	private String department;
+	private char status;
+
+	public Faculty(String name, String id, String department, char status) {
+		super(name, id);
+		setDepartment(department);
+		setStatus(status);
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setStatus(char status) {
+		this.status = status;
+	}
+
+	public char getStatus() {
+		return status;
+	}
 
 }
 
 class Staff extends Personal {
 
-	String department;
-	String rank;
+	private String department;
+	private String rank;
+
+	public Staff(String name, String id, String department, String rank) {
+		super(name, id);
+		setDepartment(department);
+		setRank(rank);
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
+	public String getRank() {
+		return rank;
+	}
 
 }
