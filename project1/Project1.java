@@ -4,6 +4,7 @@
  */
 
 import java.util.*;
+import java.text.*;
 import java.io.*;
 
 class Project1 {
@@ -35,7 +36,8 @@ class Project1 {
 				option = (new Scanner(System.in)).nextInt();
 			}
 			catch (Exception e) {
-				System.out.println("\tInvalid entry-please try again");
+				System.out.println();
+				System.out.println("Invalid entry-please try again");
 				System.out.println();
 				continue;
 			}
@@ -112,22 +114,34 @@ class Project1 {
 						System.out.println("No students registered.");
 					else {
 						assert university.students.size() == 2;
-						System.out.print("Which student? 1 " + university.students.get(0).getName() + " or 2 " + university.students.get(1).getName() + "? ");
+						System.out.print("Which student? Enter 1 " + university.students.get(0).getName() + " or Enter 2 " + university.students.get(1).getName() + "? ");
 						int studentToPrint = (new Scanner(System.in)).nextInt();
 						System.out.println(university.students.get(studentToPrint - 1).getTuitionInvoice());
 					}
 					break;
 
 				case 4:
+					if (university.faculty.isEmpty())
+						System.out.println("Sorry! No Faculty member entered yet");
 					System.out.println();
 					for (Faculty faculty : university.faculty)
 						System.out.println(faculty);
 					break;
 
 				case 5:
+					System.out.println();
+					university.staff.add(Staff.readStaff());
+					System.out.println();
+					System.out.println("Staff member added!");
+					System.out.println();
 					break;
 
 				case 6:
+					if (university.staff.isEmpty())
+						System.out.println("Sorry! No Staff member entered yet");
+					System.out.println();
+					for (Staff staff : university.staff)
+						System.out.println(staff);
 					break;
 
 				case 7:
@@ -135,7 +149,9 @@ class Project1 {
 					return;
 
 				default:
-					System.out.println("\tInvalid entry-please try again");
+					System.out.println();
+					System.out.println("Invalid entry-please try again");
+					System.out.println();
 			}
 
 			System.out.println();
@@ -228,7 +244,12 @@ class Student extends Personal {
 		tuitionInvoice += "Credit Hours: " + creditHours + " ($236.45/credit hour)\n";
 		tuitionInvoice += "Fees: $52\n";
 		tuitionInvoice += "\n";
-		tuitionInvoice += "Total payment (after discount): $" + String.format("%.2f", totalPayment) + "\t\t($" + String.format("%.2f", discount) + " discount applied)\n";
+		tuitionInvoice +=
+			"Total payment (after discount): $" +
+			NumberFormat.getCurrencyInstance().format(totalPayment) +
+			"\t\t($" +
+			NumberFormat.getCurrencyInstance().format(discount) +
+			" discount applied)\n";
 		tuitionInvoice += "---------------------------------------------------------------------------\n";
 
 		return tuitionInvoice;
@@ -307,9 +328,9 @@ class Faculty extends Personal {
 class Staff extends Personal {
 
 	private String department;
-	private char status;
+	private String status;
 
-	public Staff(String name, String id, String department, char status) {
+	public Staff(String name, String id, String department, String status) {
 		super(name, id);
 		setDepartment(department);
 		setStatus(status);
@@ -323,12 +344,63 @@ class Staff extends Personal {
 		return department;
 	}
 
-	public void setStatus(char status) {
+	public static boolean isValidDepartment(String department) {
+		return department.equals("Mathematics") ||
+			department.equals("Engineering") ||
+			department.equals("English");
+	}
+
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public char getStatus() {
+	public String getStatus() {
 		return status;
+	}
+
+	public String toString() {
+		String staffRepresentation = "";
+		staffRepresentation += "---------------------------------------------------------------------------\n";
+		staffRepresentation += getName() + "\t\t" + getId() + "\n";
+		staffRepresentation += department + " Department, " + status + "\n";
+		staffRepresentation += "---------------------------------------------------------------------------\n";
+		return staffRepresentation;
+	}
+
+	public static Staff readStaff() {
+		System.out.print("\tName of staff member: ");
+		String name = (new Scanner(System.in)).nextLine().trim();
+		System.out.println();
+
+		System.out.print("\tEnter the id: ");
+		String id = (new Scanner(System.in)).nextLine().trim();
+		System.out.println();
+
+		String department;
+		do {
+
+			System.out.print("\tDepartment: ");
+			department = (new Scanner(System.in)).nextLine().toLowerCase().trim();
+			department = department.substring(0, 1).toUpperCase() + department.substring(1);
+
+			if (!Staff.isValidDepartment(department))
+				System.out.println("\t\t\"" + department + "\" is invalid");
+
+			System.out.println();
+
+		} while (!Staff.isValidDepartment(department));
+
+		System.out.print("\tStatus, Enter P for Part Time or Enter F for Full Time: ");
+		char status = (new Scanner(System.in)).nextLine().toLowerCase().charAt(0);
+		String Status;
+		if (status == 'f')
+			Status = "Full Time";
+		else
+			Status = "Part Time";
+
+		System.out.println();
+
+		return new Staff(name, id, department, Status);
 	}
 
 }
