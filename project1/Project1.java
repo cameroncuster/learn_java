@@ -3,9 +3,9 @@
    - Cameron Custer
  */
 
-import java.util.*;
-import java.text.*;
-import java.io.*;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.text.NumberFormat;
 
 class Project1 {
 
@@ -277,15 +277,13 @@ class Student extends Personal {
 
 }
 
-class Faculty extends Personal {
+class Employee extends Personal {
 
 	private String department;
-	private String rank;
 
-	public Faculty(String name, String id, String department, String rank) {
+	public Employee(String name, String id, String department) {
 		super(name, id);
 		setDepartment(department);
-		setRank(rank);
 	}
 
 	public void setDepartment(String department) {
@@ -300,6 +298,17 @@ class Faculty extends Personal {
 		return department.equals("Mathematics") ||
 			department.equals("Engineering") ||
 			department.equals("English");
+	}
+
+}
+
+class Faculty extends Employee {
+
+	private String rank;
+
+	public Faculty(String name, String id, String department, String rank) {
+		super(name, id, department);
+		setRank(rank);
 	}
 
 	public void setRank(String rank) {
@@ -314,7 +323,7 @@ class Faculty extends Personal {
 		String facultyRepresentation = "";
 		facultyRepresentation += "---------------------------------------------------------------------------\n";
 		facultyRepresentation += getName() + "\t\t" + getId() + "\n";
-		facultyRepresentation += department + " Department, " + rank + "\n";
+		facultyRepresentation += getDepartment() + " Department, " + rank + "\n";
 		facultyRepresentation += "---------------------------------------------------------------------------\n";
 		return facultyRepresentation;
 	}
@@ -325,29 +334,13 @@ class Faculty extends Personal {
 
 }
 
-class Staff extends Personal {
+class Staff extends Employee {
 
-	private String department;
 	private String status;
 
 	public Staff(String name, String id, String department, String status) {
-		super(name, id);
-		setDepartment(department);
+		super(name, id, department);
 		setStatus(status);
-	}
-
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-
-	public String getDepartment() {
-		return department;
-	}
-
-	public static boolean isValidDepartment(String department) {
-		return department.equals("Mathematics") ||
-			department.equals("Engineering") ||
-			department.equals("English");
 	}
 
 	public void setStatus(String status) {
@@ -362,7 +355,7 @@ class Staff extends Personal {
 		String staffRepresentation = "";
 		staffRepresentation += "---------------------------------------------------------------------------\n";
 		staffRepresentation += getName() + "\t\t" + getId() + "\n";
-		staffRepresentation += department + " Department, " + status + "\n";
+		staffRepresentation += getDepartment() + " Department, " + status + "\n";
 		staffRepresentation += "---------------------------------------------------------------------------\n";
 		return staffRepresentation;
 	}
