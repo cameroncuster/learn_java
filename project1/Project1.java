@@ -45,52 +45,8 @@ class Project1 {
 
 			switch (option) {
 				case 1:
-					System.out.println("Enter faculty info:");
-
-					System.out.print("\tName of the faculty: ");
-					String name = (new Scanner(System.in)).nextLine().trim();
-					System.out.println();
-					System.out.println();
-
-					System.out.print("\tID: ");
-					String id = (new Scanner(System.in)).nextLine().trim();
-					System.out.println();
-					System.out.println();
-
-					String rank;
-					do {
-
-						System.out.print("\tRank: ");
-						rank = (new Scanner(System.in)).nextLine().toLowerCase().trim();
-						rank = rank.substring(0, 1).toUpperCase() + rank.substring(1);
-
-						if (!Faculty.isValidRank(rank))
-							System.out.println("\t\t\"" + rank + "\" is invalid");
-
-						System.out.println();
-
-					} while (!Faculty.isValidRank(rank));
-					System.out.println();
-
-					String department;
-					do {
-
-						System.out.print("\tDepartment: ");
-						department = (new Scanner(System.in)).nextLine().toLowerCase().trim();
-						department = department.substring(0, 1).toUpperCase() + department.substring(1);
-
-						if (!Faculty.isValidDepartment(department))
-							System.out.println("\t\t\"" + department + "\" is invalid");
-
-						System.out.println();
-
-					} while (!Faculty.isValidDepartment(department));
-					System.out.println();
-
-					university.faculty.add(new Faculty(name, id, department, rank));
-
+					university.faculty.add(Faculty.readFaculty());
 					System.out.println("Faculty successfully added!");
-
 					break;
 
 				case 2:
@@ -129,11 +85,8 @@ class Project1 {
 					break;
 
 				case 5:
-					System.out.println();
 					university.staff.add(Staff.readStaff());
-					System.out.println();
 					System.out.println("Staff member added!");
-					System.out.println();
 					break;
 
 				case 6:
@@ -330,6 +283,52 @@ class Faculty extends Employee {
 
 	public static boolean isValidRank(String rank) {
 		return rank.equals("Professor") || rank.equals("Adjunct");
+	}
+
+	public static Faculty readFaculty() {
+		System.out.println("Enter faculty info:");
+
+		System.out.print("\tName of the faculty: ");
+		String name = (new Scanner(System.in)).nextLine().trim();
+		System.out.println();
+		System.out.println();
+
+		System.out.print("\tID: ");
+		String id = (new Scanner(System.in)).nextLine().trim();
+		System.out.println();
+		System.out.println();
+
+		String rank;
+		do {
+
+			System.out.print("\tRank: ");
+			rank = (new Scanner(System.in)).nextLine().toLowerCase().trim();
+			rank = rank.substring(0, 1).toUpperCase() + rank.substring(1);
+
+			if (!Faculty.isValidRank(rank))
+				System.out.println("\t\t\"" + rank + "\" is invalid");
+
+			System.out.println();
+
+		} while (!Faculty.isValidRank(rank));
+		System.out.println();
+
+		String department;
+		do {
+
+			System.out.print("\tDepartment: ");
+			department = (new Scanner(System.in)).nextLine().toLowerCase().trim();
+			department = department.substring(0, 1).toUpperCase() + department.substring(1);
+
+			if (!Faculty.isValidDepartment(department))
+				System.out.println("\t\t\"" + department + "\" is invalid");
+
+			System.out.println();
+
+		} while (!Faculty.isValidDepartment(department));
+		System.out.println();
+
+		return new Faculty(name, id, department, rank);
 	}
 
 }
