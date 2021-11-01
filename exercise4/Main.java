@@ -23,7 +23,7 @@ interface Codable {
 
 }
 
-abstract class Book {
+abstract class Book implements Codable {
 
 	private String author;
 	private String title;
@@ -60,7 +60,7 @@ abstract class Book {
 
 }
 
-class LibraryBook extends Book implements Codable {
+class LibraryBook extends Book {
 
 	private String subject;
 
@@ -93,7 +93,7 @@ class LibraryBook extends Book implements Codable {
 
 }
 
-class BookstoreBook extends Book implements Codable {
+class BookstoreBook extends Book {
 
 	private double price;
 
