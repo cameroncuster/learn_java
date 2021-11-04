@@ -1,10 +1,9 @@
 /*
    - Project 2
    - Cameron Custer
- */
+   */
 
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.text.NumberFormat;
 
 class Project2 {
@@ -14,14 +13,15 @@ class Project2 {
 		System.out.println("\t\t\t\tWelcome to my Personal Management Program");
 		System.out.println();
 
-		University university = new University();
+		University university = new University(100);
+
 		while (true) {
 
 			// menu
 			System.out.println("Choose one of the options:");
 			System.out.println();
-			System.out.println("1-Enter the information of the faculty member");
-			System.out.println("2-Enter the information of the two students");
+			System.out.println("1-Enter the information of a faculty");
+			System.out.println("2-Enter the information of a student");
 			System.out.println("3-Print tuition invoice");
 			System.out.println("4-Print faculty information");
 			System.out.println("5-Enter the information of the staff member");
@@ -43,58 +43,54 @@ class Project2 {
 			}
 			System.out.println();
 
+			String id;
 			switch (option) {
 				case 1:
-					university.faculty.add(Faculty.readFaculty());
-					System.out.println("Faculty successfully added!");
+					university.add(Faculty.readFaculty());
+					System.out.println("Faculty added!");
 					break;
 
 				case 2:
-					if (university.students.size() == 2) {
-						System.out.println("You already have two students filled in. Do you want to update their information?");
-						System.out.print("Yes or No: ");
-						String choice = (new Scanner(System.in)).nextLine().toLowerCase().trim();
-						if (choice.equals("no"))
-							break;
-					}
-					for (int student = 1; student <= 2; student++) {
-						System.out.println("Enter student " + student + " info:");
-						university.students.add(Student.readStudent());
-						System.out.println("Thanks!");
-						System.out.println();
-					}
+					university.add(Student.readStudent());
+					System.out.println("Student added!");
 					break;
 
 				case 3:
-					if (university.students.size() == 0)
-						System.out.println("No students registered.");
-					else {
-						assert university.students.size() == 2;
-						System.out.print("Which student? Enter 1 " + university.students.get(0).getName() + " or Enter 2 " + university.students.get(1).getName() + "? ");
-						int studentToPrint = (new Scanner(System.in)).nextInt();
-						university.students.get(studentToPrint - 1).print();
-					}
+					System.out.print("Enter the student’s ID: ");
+					id = (new Scanner(System.in)).nextLine().trim();
+					System.out.println();
+					Person student = university.find(id);
+					if (student != null && student instanceof Student)
+						student.print();
+					else
+						System.out.println("No student matched!");
 					break;
 
 				case 4:
-					if (university.faculty.isEmpty())
-						System.out.println("Sorry! No Faculty member entered yet");
+					System.out.print("Enter the Faculty’s ID: ");
+					id = (new Scanner(System.in)).nextLine().trim();
 					System.out.println();
-					for (Faculty faculty : university.faculty)
+					Person faculty = university.find(id);
+					if (faculty != null && faculty instanceof Faculty)
 						faculty.print();
+					else
+						System.out.println("No faculty member matched!");
 					break;
 
 				case 5:
-					university.staff.add(Staff.readStaff());
+					university.add(Staff.readStaff());
 					System.out.println("Staff member added!");
 					break;
 
 				case 6:
-					if (university.staff.isEmpty())
-						System.out.println("Sorry! No Staff member entered yet");
+					System.out.print("Enter the Staff’s ID: ");
+					id = (new Scanner(System.in)).nextLine().trim();
 					System.out.println();
-					for (Staff staff : university.staff)
+					Person staff = university.find(id);
+					if (staff != null && staff instanceof Staff)
 						staff.print();
+					else
+						System.out.println("No staff member matched!");
 					break;
 
 				case 7:
@@ -117,14 +113,28 @@ class Project2 {
 
 class University {
 
-	ArrayList<Student> students;
-	ArrayList<Faculty> faculty;
-	ArrayList<Staff> staff;
+	Person people[];
+	int personIdx;
 
-	public University() {
-		students = new ArrayList<Student>();
-		faculty = new ArrayList<Faculty>();
-		staff = new ArrayList<Staff>();
+	public University(int size) {
+		people = new Person[size];
+		personIdx = 0;
+	}
+
+	public boolean add(Person person) {
+		if (personIdx < people.length) {
+			people[personIdx++] = person;
+			return true;
+		}
+		return false;
+	}
+
+	// ID's must be unique across entire university
+	public Person find(String id) {
+		for (int i = 0; i < personIdx; i++)
+			if (people[i].getId().equals(id))
+				return people[i];
+		return null;
 	}
 
 }
@@ -193,24 +203,27 @@ class Student extends Person {
 			discount = 15 * (totalPayment / 100.0);
 		totalPayment -= discount;
 
-		String tuitionInvoice = "";
-		tuitionInvoice += "---------------------------------------------------------------------------\n";
+		String tuitionInvoice = "Here is the tuition invoice for " + getName() + " :\n\n";
+		tuitionInvoice += "-------------------------------------------------------------------------------\n";
 		tuitionInvoice += getName() + "\t\t\t\t" + getId() + "\n";
 		tuitionInvoice += "Credit Hours: " + creditHours + " ($236.45/credit hour)\n";
 		tuitionInvoice += "Fees: $52\n";
 		tuitionInvoice += "\n";
 		tuitionInvoice +=
-			"Total payment (after discount): $" +
+			"Total payment (after discount): " +
 			NumberFormat.getCurrencyInstance().format(totalPayment) +
-			"\t\t($" +
+			"\t\t(" +
 			NumberFormat.getCurrencyInstance().format(discount) +
 			" discount applied)\n";
-		tuitionInvoice += "---------------------------------------------------------------------------\n";
+		tuitionInvoice += "-------------------------------------------------------------------------------\n";
 
 		System.out.println(tuitionInvoice);
 	}
 
 	public static Student readStudent() {
+		System.out.println("Enter the student info:");
+		System.out.println();
+
 		System.out.print("\tName of Student: ");
 		String name = (new Scanner(System.in)).nextLine().trim();
 		System.out.println();
@@ -252,6 +265,7 @@ abstract class Employee extends Person {
 	public static boolean isValidDepartment(String department) {
 		return department.equals("Mathematics") ||
 			department.equals("Engineering") ||
+			department.equals("Sciences") ||
 			department.equals("English");
 	}
 
@@ -276,10 +290,10 @@ class Faculty extends Employee {
 
 	public void print() {
 		String facultyRepresentation = "";
-		facultyRepresentation += "---------------------------------------------------------------------------\n";
+		facultyRepresentation += "-------------------------------------------------------------------------------\n";
 		facultyRepresentation += getName() + "\t\t" + getId() + "\n";
 		facultyRepresentation += getDepartment() + " Department, " + rank + "\n";
-		facultyRepresentation += "---------------------------------------------------------------------------\n";
+		facultyRepresentation += "-------------------------------------------------------------------------------\n";
 		System.out.println(facultyRepresentation);
 	}
 
@@ -289,6 +303,7 @@ class Faculty extends Employee {
 
 	public static Faculty readFaculty() {
 		System.out.println("Enter faculty info:");
+		System.out.println();
 
 		System.out.print("\tName of the faculty: ");
 		String name = (new Scanner(System.in)).nextLine().trim();
@@ -354,10 +369,10 @@ class Staff extends Employee {
 
 	public void print() {
 		String staffRepresentation = "";
-		staffRepresentation += "---------------------------------------------------------------------------\n";
+		staffRepresentation += "-------------------------------------------------------------------------------\n";
 		staffRepresentation += getName() + "\t\t" + getId() + "\n";
 		staffRepresentation += getDepartment() + " Department, " + status + "\n";
-		staffRepresentation += "---------------------------------------------------------------------------\n";
+		staffRepresentation += "-------------------------------------------------------------------------------\n";
 		System.out.println(staffRepresentation);
 	}
 
