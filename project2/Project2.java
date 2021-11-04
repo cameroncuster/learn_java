@@ -116,6 +116,11 @@ class University {
 	Person people[];
 	int personIdx;
 
+	public University() {
+		people = null;
+		personIdx = 0;
+	}
+
 	public University(int size) {
 		people = new Person[size];
 		personIdx = 0;
@@ -137,12 +142,33 @@ class University {
 		return null;
 	}
 
+	public Person[] getPeople() {
+		return people;
+	}
+
+	public void setPeople(Person people[]) {
+		this.people = people;
+	}
+
+	public int getPersonIdx() {
+		return personIdx;
+	}
+
+	public void setPersonIdx(int personIdx) {
+		this.personIdx = personIdx;
+	}
+
 }
 
 abstract class Person {
 
 	private String name;
 	private String id;
+
+	public Person() {
+		name = "";
+		id = "";
+	}
 
 	public Person(String name, String id) {
 		setName(name);
@@ -173,6 +199,12 @@ class Student extends Person {
 
 	private double gpa;
 	private int creditHours;
+
+	public Student() {
+		super();
+		gpa = 0;
+		creditHours = 0;
+	}
 
 	public Student(String name, String id, double gpa, int creditHours) {
 		super(name, id);
@@ -249,6 +281,11 @@ abstract class Employee extends Person {
 
 	private String department;
 
+	public Employee() {
+		super();
+		department = "";
+	}
+
 	public Employee(String name, String id, String department) {
 		super(name, id);
 		setDepartment(department);
@@ -274,6 +311,11 @@ abstract class Employee extends Person {
 class Faculty extends Employee {
 
 	private String rank;
+
+	public Faculty() {
+		super();
+		rank = "";
+	}
 
 	public Faculty(String name, String id, String department, String rank) {
 		super(name, id, department);
@@ -353,6 +395,11 @@ class Faculty extends Employee {
 class Staff extends Employee {
 
 	private String status;
+
+	public Staff() {
+		super();
+		status = "";
+	}
 
 	public Staff(String name, String id, String department, String status) {
 		super(name, id, department);
