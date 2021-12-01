@@ -227,7 +227,7 @@ class University {
 			return;
 		}
 		writer.println("\t\tReport created on " +
-				DateTimeFormatter.ofPattern("yyyy/mm/dd").format(
+				DateTimeFormatter.ofPattern("MM/dd/yyyy").format(
 					LocalDateTime.now()));
 		writer.println("\t\t***********************************");
 
