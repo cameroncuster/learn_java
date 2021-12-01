@@ -212,36 +212,46 @@ class University {
 	}
 
 	public void report() {
-		File report = new File("report.txt");
 		PrintWriter writer;
 		try {
-			writer = new PrintWriter(report);
+			writer = new PrintWriter(new File("report.txt"));
 		}
 		catch (Exception e) {
 			return;
 		}
-		writer.println("\tReport created on " +
+		writer.println("\t\tReport created on " +
 				DateTimeFormatter.ofPattern("yyyy/mm/dd").format(
 					LocalDateTime.now()));
-		writer.println("\t***********************************");
+		writer.println("\t\t***********************************");
 
 		writer.println("Faculty Members");
 		writer.println("---------------");
-		for (int i = 0; i < personIdx; i++)
+		for (int i = 0, cnt = 1; i < personIdx; i++)
 			if (people[i] instanceof Faculty)
-				writer.println(people[i]);
+				writer.println("\t" + cnt++ + ". " + people[i]);
+
+		writer.println();
+		writer.println();
 
 		writer.println("Staff Members");
 		writer.println("---------------");
-		for (int i = 0; i < personIdx; i++)
+		for (int i = 0, cnt = 1; i < personIdx; i++)
 			if (people[i] instanceof Staff)
-				writer.println(people[i]);
+				writer.println("\t" + cnt++ + ". " + people[i]);
+
+		writer.println();
+		writer.println();
 
 		writer.println("Students");
 		writer.println("---------------");
-		for (int i = 0; i < personIdx; i++)
+		for (int i = 0, cnt = 1; i < personIdx; i++)
 			if (people[i] instanceof Student)
-				writer.println(people[i]);
+				writer.println("\t" + cnt++ + ". " + people[i]);
+
+		writer.println();
+		writer.println();
+
+		writer.close();
 	}
 
 	public boolean add(Person person) {
@@ -344,6 +354,11 @@ class Student extends Person {
 
 	public int getCreditHours() {
 		return creditHours;
+	}
+
+	public String toString() {
+		return getName() + "\n\tID: " + getId() + "\n\tGpa: " + gpa +
+			"\n\tCredit hours: " + creditHours;
 	}
 
 	public void print() {
@@ -467,6 +482,11 @@ class Faculty extends Employee {
 		return rank;
 	}
 
+	public String toString() {
+		return getName() + "\n\tID: " + getId() + "\n\t" + rank + ", " +
+			getDepartment();
+	}
+
 	public void print() {
 		String facultyRepresentation = "";
 		facultyRepresentation += "-------------------------------------------------------------------------------\n";
@@ -547,6 +567,11 @@ class Staff extends Employee {
 
 	public String getStatus() {
 		return status;
+	}
+
+	public String toString() {
+		return getName() + "\n\tID: " + getId() + "\n\t" + getDepartment() +
+			", " + status;
 	}
 
 	public void print() {
