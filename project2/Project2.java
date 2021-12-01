@@ -232,7 +232,7 @@ class Student extends Person {
 		double totalPayment = 52.00 + 236.45 * creditHours;
 		double discount = 0.0;
 		if (gpa >= 3.85)
-			discount = 15 * (totalPayment / 100.0);
+			discount = 25 * (totalPayment / 100.0);
 		totalPayment -= discount;
 
 		String tuitionInvoice = "Here is the tuition invoice for " + getName() + " :\n\n";
