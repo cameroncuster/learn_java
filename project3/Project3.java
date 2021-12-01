@@ -18,12 +18,18 @@ class Project3 {
 		if (id.length() != 6)
 			return true;
 
-		for (int i = 0; i < 6; i++)
-			if (!(i < 2 && Character.isLetter(id.charAt(i))) ||
-					!(i >= 2 && Character.isDigit(id.charAt(i))))
-				return false;
+		for (int i = 0; i < 6; i++) {
+			if (i < 2) {
+				if (!Character.isLetter(id.charAt(i)))
+					return true;
+			}
+			else {
+				if (!Character.isDigit(id.charAt(i)))
+					return true;
+			}
+		}
 
-		return true;
+		return false;
 	}
 
 	public static String createID() {
@@ -36,6 +42,7 @@ class Project3 {
 					throw new IdException();
 				if (university.find(id) == null)
 					break;
+				System.out.print("ID already found please enter a different ID.");
 			}
 			catch (IdException e) {
 				System.out.print(e);
@@ -224,6 +231,9 @@ class University {
 					LocalDateTime.now()));
 		writer.println("\t\t***********************************");
 
+		writer.println();
+		writer.println();
+
 		writer.println("Faculty Members");
 		writer.println("---------------");
 		for (int i = 0, cnt = 1; i < personIdx; i++)
@@ -247,9 +257,6 @@ class University {
 		for (int i = 0, cnt = 1; i < personIdx; i++)
 			if (people[i] instanceof Student)
 				writer.println("\t" + cnt++ + ". " + people[i]);
-
-		writer.println();
-		writer.println();
 
 		writer.close();
 	}
@@ -361,11 +368,12 @@ class Student extends Person {
 			"\n\tCredit hours: " + creditHours;
 	}
 
+	// NOTE: students are given a 20% discount on their tuition payment for GPA of 3.85 or higher
 	public void print() {
 		double totalPayment = 52.00 + 236.45 * creditHours;
 		double discount = 0.0;
 		if (gpa >= 3.85)
-			discount = 15 * (totalPayment / 100.0);
+			discount = 20 * (totalPayment / 100.0);
 		totalPayment -= discount;
 
 		String tuitionInvoice = "Here is the tuition invoice for " + getName() + " :\n\n";
