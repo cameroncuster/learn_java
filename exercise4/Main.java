@@ -111,7 +111,7 @@ class BookstoreBook extends Book {
 	}
 
 	public String toString() {
-		return super.toString() + ", $" + price;
+		return getIsbn() + ": " + super.toString() + ", $" + price;
 	}
 
 }
